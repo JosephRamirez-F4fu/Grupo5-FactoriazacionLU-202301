@@ -41,9 +41,9 @@ class Inicio(customtkinter.CTkToplevel):
             print(self.myMatrix.reducir())            
 
         self.FrameMatrixA=self.MatrixFrame(self.myMatrix.M,self.FrameMatrix,'A')
-        self.FrameMatrixL=self.MatrixFrame(self.Factorization[0].M,self.FrameFactorizacion,'L')
-        self.FrameMatrixU=self.MatrixFrame(self.Factorization[1].M,self.FrameFactorizacion,'U')
-        self.FrameMatrixPt=self.MatrixFrame(self.Factorization[2].M,self.FrameFactorizacion,'Pt')
+        self.FrameMatrixL=self.MatrixFrame(self.Factorization[0].M,self.FrameFactorizacion,'Pt')
+        self.FrameMatrixU=self.MatrixFrame(self.Factorization[1].M,self.FrameFactorizacion,'L')
+        self.FrameMatrixPt=self.MatrixFrame(self.Factorization[2].M,self.FrameFactorizacion,'U')
         self.FrameMatrixA.pack(side='left',padx=15,pady=30)
         self.FrameFactorizacion.pack(side='left',padx=20,ipadx=15,ipady=10,pady=30)
         self.FrameMatrixL.pack(padx=15,pady=10)
