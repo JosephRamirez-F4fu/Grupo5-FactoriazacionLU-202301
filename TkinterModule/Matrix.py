@@ -62,6 +62,9 @@ class Matrix:
             return False
         return True
     
+    def __len__(self)->int:
+        return len(self.M)
+
     def setRandSimetry(self, value = 1):
         for i in range(self.m):
             for j in range(i, self.n):
@@ -103,7 +106,7 @@ class Matrix:
                         break
             if es_resolvible == False:
                 print("SIN SOLUCION")
-                return Pt, L, U
+                return False
             for j in range(i + 1, U.m):
                 if U.M[j][i] != 0:
                     coef = Fraction(U.M[j][i] / U.M[i][i]).limit_denominator()
@@ -121,7 +124,7 @@ class Matrix:
         U.print()
         print("---------------\n RESULTADO PRODUCTO (Pt * L * U)\n---------------")
         (Pt*L*U).print()
-        return Pt, L, U
+        return [Pt, L, U]
     def print(self):
         for row in self.M:
             for e in row:

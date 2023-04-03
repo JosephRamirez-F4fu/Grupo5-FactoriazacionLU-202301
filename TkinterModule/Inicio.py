@@ -4,13 +4,13 @@ import TkinterModule.Matrix
 class Inicio(customtkinter.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.geometry("1216x720")
+        self.geometry("1400x720")
         #Frame ingreso Valor
         self.frame = customtkinter.CTkFrame(self)
         self.frame.pack(side="left",padx=25,ipadx=25,pady=100,ipady=100)
         #MatrixFrames
         self.FrameMatrix=customtkinter.CTkScrollableFrame(self)
-        self.FrameMatrix.pack(side="left",ipadx=380,fill='y',)
+        self.FrameMatrix.pack(side="left",ipadx=780,fill='y',)
         self.FrameFactorizacion=customtkinter.CTkFrame(self.FrameMatrix)
         self.FrameMatrixA=None
         self.FrameMatrixL=None
@@ -29,10 +29,21 @@ class Inicio(customtkinter.CTkToplevel):
     
     def Do_MatrixFrames(self):
         self.cath_nMatrix()
-        self.FrameMatrixA=self.MatrixFrame(self.Do_Matrix(),self.FrameMatrix)
-        self.FrameMatrixL=self.MatrixFrame(self.Do_Matrix(),self.FrameFactorizacion)
-        self.FrameMatrixU=self.MatrixFrame(self.Do_Matrix(),self.FrameFactorizacion)
-        self.FrameMatrixPt=self.MatrixFrame(self.Do_Matrix(),self.FrameFactorizacion)
+
+        #haciendo uso de Matrix class
+
+        self.myMatrix=TkinterModule.Matrix.Matrix(self.nMatrix,self.nMatrix)
+        self.myMatrix.setRandSimetry(3)
+        self.Factorization:list
+        try:
+            self.Factorization=self.myMatrix.reducir()
+        except:
+            print(self.myMatrix.reducir())            
+
+        self.FrameMatrixA=self.MatrixFrame(self.myMatrix.M,self.FrameMatrix,'A')
+        self.FrameMatrixL=self.MatrixFrame(self.Factorization[0].M,self.FrameFactorizacion,'L')
+        self.FrameMatrixU=self.MatrixFrame(self.Factorization[1].M,self.FrameFactorizacion,'U')
+        self.FrameMatrixPt=self.MatrixFrame(self.Factorization[2].M,self.FrameFactorizacion,'Pt')
         self.FrameMatrixA.pack(side='left',padx=15,pady=30)
         self.FrameFactorizacion.pack(side='left',padx=20,ipadx=15,ipady=10,pady=30)
         self.FrameMatrixL.pack(padx=15,pady=10)
@@ -71,14 +82,20 @@ class Inicio(customtkinter.CTkToplevel):
         
 
         
-    def MatrixFrame(self,datos:list,Frame):
-        frameM=customtkinter.CTkFrame(Frame)
+    def MatrixFrame(self,datos:list,Frame,MatrixName):
+        
+        
+        frameMatriNames=customtkinter.CTkFrame(Frame)
+        LabelNameMatrix=customtkinter.CTkLabel(frameMatriNames,text=MatrixName)
+        LabelNameMatrix.pack()
+        frameM=customtkinter.CTkFrame(frameMatriNames)
+        frameM.pack()
         for i in range(len(datos)):
             fila = []
             for j in range(len(datos)):
-                dato = tkinter.StringVar(value=datos[i][j])
+                dato = tkinter.StringVar(value=str(datos[i][j]))
                 fila.append(dato)
                 label = customtkinter.CTkLabel(frameM, textvariable=dato)
                 label.grid(row=i, column=j,ipadx=6,ipady=3,padx=4,pady=2)
-        return frameM
+        return frameMatriNames
 
