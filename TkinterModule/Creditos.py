@@ -14,10 +14,10 @@ class Creditos(customtkinter.CTkToplevel):
         #Frame donde se muestran los nombres y codigos de los Estudiantes
 
         Estudiantes = [ {"nombre":"Joseph Ramirez Sarmiento","codigo":"U20211C828"},
-                       {"nombre":"Joseph Ramirez Sarmiento","codigo":"U20211C828"},
-                       {"nombre":"Joseph Ramirez Sarmiento","codigo":"U20211C828"},
-                       {"nombre":"Joseph Ramirez Sarmiento","codigo":"U20211C828"},
-                       {"nombre":"Joseph Ramirez Sarmiento","codigo":"U20211C828"}]
+                       {"nombre":"Diego Alexander Huaman Sirio","codigo":"U20211F983"},
+                       {"nombre":"Sara Gabriela Estrada Fernández","codigo":"U20211A109"},
+                       {"nombre":"Jhamil Brijan Peña Cardenas","codigo":"U201714492 "},
+                       {"nombre":"César Augusto Torres Paniagua ","codigo":"U201615124 "}]
         
         frameEstudiantes=customtkinter.CTkFrame(self)
         frameEstudiantes.pack(pady=50)

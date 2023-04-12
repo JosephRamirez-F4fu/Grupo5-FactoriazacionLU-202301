@@ -58,9 +58,9 @@ class Matrix:
                 for j in range(self.n):
                     if self.M[i][j]!=__value.M[i][j]:
                         return False
+            return True
         else :
             return False
-        return True
     
     def __len__(self)->int:
         return len(self.M)
@@ -72,21 +72,40 @@ class Matrix:
                     self.M[i][j] = r.randint(0, value)
                 else:
                     self.M[i][j] = self.M[j][i] = r.randint(0, value)
-    def setDiagonal(self):
+    def setIdentity(self):
         for i in range(self.m):
             for j in range(self.n):
                 if i == j:
                     self.M[i][j] = 1
                 else:
                     self.M[i][j] = 0
+    def setDiagonal(self):
+        for i in range(self.m):
+            for j in range(self.n):
+                if i == j:
+                    self.M[i][j] = 1
     def swap_row(self, R1:int, R2:int):
         self.M[R1], self.M[R2] = self.M[R2], self.M[R1]
     def add_row(self, R1:int, R2:int, coef = 1):
         if R1 > -1 and R1 < self.m and R2 > -1 and R2 < self.m:
             for j in range(self.n):
                 self.M[R1][j] += self.M[R2][j] * coef
+    def transp(self):
+        for i in range(self.m):
+            for j in range(self.n):
+                self.M[i][j], self.M[j][i] = self.M[j][i], self.M[i][j]
     def copy(self):
         return Matrix([row.copy() for row in self.M])
+    def isIdentity(self):
+        for i in range(self.m):
+            for j in range(self.n):
+                if i == j:
+                    if self.M[i][j] != 1:
+                        return False
+                else:
+                    if self.M[i][j] != 0:
+                        return False
+        return True
     def reducir(self):
         U = self.copy()
         Pt = Matrix(U.m, U.n, identity = True)
@@ -98,10 +117,10 @@ class Matrix:
                 es_resolvible = False
                 for j in range(i + 1, self.m):
                     if U.M[j][i] != 0:
-                        EPt.setDiagonal()
                         es_resolvible = True
+                        EPt.setIdentity()
                         EPt.swap_row(i,j)
-                        Pt = Pt * EPt
+                        Pt = EPt * Pt
                         U.swap_row(i, j)
                         break
             if es_resolvible == False:
@@ -114,16 +133,13 @@ class Matrix:
                     tmp = Matrix(U.m, U.n, identity=True)
                     tmp.add_row(j, i, Fraction(coef))
                     L = L * tmp
-        print("---------------\n ORIGINAL\n---------------")
-        self.print()
-        print("---------------\n Pt\n---------------")
-        Pt.print()
-        print("---------------\n L\n---------------")
-        L.print()
-        print("---------------\n U\n---------------")
-        U.print()
-        print("---------------\n RESULTADO PRODUCTO (Pt * L * U)\n---------------")
-        (Pt*L*U).print()
+
+        if Pt.isIdentity() is False:
+            A2 = Pt * self.copy()
+            _, L, U = A2.reducir()
+        L.setDiagonal()
+        Pt.transp()
+        R = (Pt * L) * U
         return [Pt, L, U]
     def print(self):
         for row in self.M:
